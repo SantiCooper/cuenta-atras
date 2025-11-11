@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cuenta atrás — Sorpresa</title>
+<style>
+  :root{--card-bg: rgba(255,255,255,0.9);--accent:#ff6b6b;--text:#111;--muted:#444}
+  html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body{display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(600px 300px at 10% 20%, rgba(255,120,120,0.25), transparent 20%),
+      radial-gradient(500px 260px at 90% 30%, rgba(155,89,255,0.22), transparent 20%),
+      radial-gradient(400px 220px at 50% 80%, rgba(255,200,90,0.18), transparent 18%),
+      linear-gradient(180deg,#0f0f14 0%, #2c1a3a 100%);
+    background-blend-mode: screen,screen,screen,normal;
+    min-height:100vh;padding:20px;box-sizing:border-box;color:var(--text);}
+  body::before{content:"";position:fixed;inset:0;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(255,255,255,0.05) 0 3%, transparent 30%),
+      radial-gradient(circle at 85% 15%, rgba(255,255,255,0.04) 0 3%, transparent 28%),
+      radial-gradient(circle at 50% 5%, rgba(255,255,255,0.03) 0 4%, transparent 30%);
+    pointer-events:none;}
+  #card{width:100%;max-width:540px;background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.88));
+    border-radius:16px;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,0.35);text-align:center;position:relative;overflow:hidden;}
+  .note{position:absolute;left:16px;top:14px;font-size:20px;color:rgba(0,0,0,0.08)}
+  h1{font-size:18px;margin:8px 0 14px;color:var(--text);line-height:1.15}
+  .blocks{display:flex;gap:10px;justify-content:center;align-items:end;flex-wrap:nowrap;margin:6px 0 10px;padding:8px}
+  .block{background:linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.95));width:76px;min-width:64px;border-radius:12px;padding:10px 8px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .number{font-weight:800;font-size:28px;line-height:1;color:var(--text)}
+  .label{margin-top:6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em}
+  #final{display:none;margin-top:14px;font-weight:700;color:#1b5e20;font-size:16px}
+  @media (max-width:420px){.blocks{gap:8px}.block{width:64px;padding:12px}.number{font-size:26px}h1{font-size:16px}}
+  .done .block{transform:scale(1.02);transition:transform 300ms ease}
+  .done #final{display:block}
+</style>
+</head>
+<body>
+  <div id="card" role="main" aria-live="polite">
+    <div class="note" aria-hidden="true">♪</div>
+    <h1>Esto te queda para empezar a disfrutar de tu regalo.</h1>
+
+    <div class="blocks" aria-hidden="false" id="blocks">
+      <div class="block" aria-label="Días restantes">
+        <div class="number" id="days">--</div>
+        <div class="label">Días</div>
+      </div>
+
+      <div class="block" aria-label="Horas restantes">
+        <div class="number" id="hours">--</div>
+        <div class="label">Horas</div>
+      </div>
+
+      <div class="block" aria-label="Minutos restantes">
+        <div class="number" id="minutes">--</div>
+        <div class="label">Minutos</div>
+      </div>
+
+      <div class="block" aria-label="Segundos restantes">
+        <div class="number" id="seconds">--</div>
+        <div class="label">Segundos</div>
+      </div>
+    </div>
+
+    <div id="final" role="status">🎁 ¡Ya puedes descubrir tu sorpresa!</div>
+  </div>
+
+<script>
+  const target = new Date("2025-11-22T21:00:00+01:00");
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function update(){
+    const now = new Date();
+    let diff = Math.max(0, target - now);
+    if(diff <= 0){
+      document.getElementById('days').textContent = '00';
+      document.getElementById('hours').textContent = '00';
+      document.getElementById('minutes').textContent = '00';
+      document.getElementById('seconds').textContent = '00';
+      document.getElementById('card').classList.add('done');
+      return;
+    }
+    const secs = Math.floor(diff / 1000);
+    const days = Math.floor(secs / 86400);
+    const hours = Math.floor((secs % 86400) / 3600);
+    const minutes = Math.floor((secs % 3600) / 60);
+    const seconds = secs % 60;
+    document.getElementById('days').textContent = pad(days);
+    document.getElementById('hours').textContent = pad(hours);
+    document.getElementById('minutes').textContent = pad(minutes);
+    document.getElementById('seconds').textContent = pad(seconds);
+    setTimeout(update, 250);
+  }
+  if (isNaN(target)) {
+    document.getElementById('card').innerText = 'Fecha inválida';
+  } else {
+    update();
+  }
+</script>
+</body>
+</html>
