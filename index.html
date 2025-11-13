@@ -1,73 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cuenta atrás para Iván 🎉</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sorpresa</title>
 
-  <style>
+<style>
     body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      height: 100vh;
-      background: url('foto.jpg') no-repeat center center/cover;
-      font-family: 'Poppins', sans-serif;
-      color: white;
-      text-align: center;
-      position: relative;
+        margin: 0;
+        padding: 0;
+        background: url("foto.jpg") center/cover no-repeat fixed;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
     }
 
     /* TÍTULO ARRIBA */
     h1 {
-      font-size: 1.5em;
-      position: absolute;
-      top: 15px;
-      width: 100%;
-      padding: 0 15px;
-      margin: 0;
-      text-align: center;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+        margin-top: 20px;
+        font-size: 2.2em;
+        text-shadow: 0 0 8px black;
     }
 
-    /* CONTADOR CENTRADO */
+    /* CONTENEDOR DEL CONTADOR */
     #countdown {
-      position: absolute;
-      top: 45%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 2.1em;
-      font-weight: bold;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9);
-      line-height: 1.4em;
+        margin-top: 20px;
+        font-size: 2em;
+        line-height: 1.2em;
     }
 
-    /* CAJAS DE NÚMEROS */
+    .time-row {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* CAJITAS DEL TIEMPO */
     .time-box {
-      display: inline-block;
-      background: rgba(0, 0, 0, 0.45);
-      padding: 6px 12px;
-      border-radius: 10px;
-      margin: 3px;
-      font-size: 1.1em;
+        display: inline-block;
+        background: rgba(0, 0, 0, 0.45);
+        padding: 10px 15px;
+        border-radius: 10px;
+        margin: 5px;
+        min-width: 55px;
     }
 
-    /* ETIQUETAS (más pequeñas) */
+    .time-number {
+        font-size: 1.4em;
+        font-weight: bold;
+    }
+
     .time-label {
-      font-size: 0.45em;
-      opacity: 0.9;
-      margin-right: 6px;
+        font-size: 0.55em;
+        opacity: 0.9;
     }
 
-    /* TEXTO INFERIOR */
-    .bottom-text {
-      position: absolute;
-      bottom: 90px; /* AJUSTA LA ALTURA AQUÍ */
-      width: 100%;
-      padding: 0 20px;
-      font-size: 1.2em;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+    /* TEXTO INFERIOR MÁS ARRIBA */
+    #bottom-text {
+        margin-bottom: 40px;
+        font-size: 1.3em;
+        text-shadow: 0 0 6px black;
     }
 
-    /* CORAZONES MEJORADOS */
+    /* CORAZONES */
     .heart {
+        position: absolute;
+        bottom: -20px;
+        font-size: 24px;
+        opacity: 0.9;
+        animation: subir 4s linear infinite;
+        color: rgba(255, 0, 80, 1);
+    }
+
+    @keyframes subir {
+        0% { transform: translateY(0) scale(1); opacity: 1; }
+        100% { transform: translateY(-110vh) scale(1.4); opacity: 0.4; }
+    }
+</style>
+</head>
+<body>
+
+<h1>¡Feliz Cumpleaños!</h1>
+
+<div id="countdown">
+    <div class="time-row">
+        <div class="time-box"><div class="time-number" id="days"></div><div class="time-label">DÍAS</div></div>
+        <div class="time-box"><div class="time-number" id="hours"></div><div class="time-label">HORAS</div></div>
+    </div>
+    <div class="time-row">
+        <div class="time-box"><div class="time-number" id="minutes"></div><div class="time-label">MINUTOS</div></div>
+        <div class="time-box"><div class="time-number" id="seconds"></div><div class="time-label">SEGUNDOS</div></div>
+    </div>
+</div>
+
+<div id="bottom-text">Prepárate para tu sorpresa… ❤️</div>
+
+<script>
+    // Cuenta regresiva
+    const targetDate = new Date("2025-01-10T00:00:00").getTime();
+
+    function actualizar() {
+        const now = new Date().getTime();
+        const diff = targetDate - now;
+
+        document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+        document.getElementById("hours").innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        document.getElementById("minutes").innerText = Math.floor((diff / (1000 * 60)) % 60);
+        document.getElementById("seconds").innerText = Math.floor((diff / 1000) % 60);
+    }
+
+    setInterval(actualizar, 1000);
+
+    // Animación de corazones
+    function crearCorazon() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤";
+        heart.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 4000);
+    }
+
+    setInterval(crearCorazon, 500);
+</script>
+
+</body>
+</html>
