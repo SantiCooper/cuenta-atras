@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cuenta atrás para Iván 🎉</title>
+ .time-box {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.4); /* semitransparente */
+  padding: 5px 10px;
+  border-radius: 8px;
+  margin: 3px;
+}
+ .time-label {
+  font-size: 0.5em;   /* texto más pequeño */
+  opacity: 0.9;
   <style>
     body {
       margin: 0;
@@ -92,10 +102,11 @@
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       countdown.innerHTML =
-        countdown.innerHTML =
-  `${days} días&nbsp;&nbsp;${hours} horas<br>` +
-  `${minutes} minu&nbsp;&nbsp;${seconds} seg`;
-
+       countdown.innerHTML =
+  `<span class="time-box">${days}</span> <span class="time-label">días</span>
+   <span class="time-box">${hours}</span> <span class="time-label">horas</span><br>
+   <span class="time-box">${minutes}</span> <span class="time-label">min</span>
+   <span class="time-box">${seconds}</span> <span class="time-label">seg</span>`;
 
       if (distance < 0) {
         clearInterval(timer);
