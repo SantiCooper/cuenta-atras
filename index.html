@@ -11,12 +11,18 @@
       padding:0;
     }
     body {
-      background: url('foto.jpg') no-repeat center center/cover;
-      font-family: 'Poppins', Arial, sans-serif;
-      color: white;
+     margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* distribuye título, contador y texto inferior */
+  align-items: center;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: white;
       overflow: hidden;
-      position: relative;
-      text-align: center;
+     
     }
 
     /* Capa principal sobre todo */
@@ -28,20 +34,17 @@
 
     /* Título arriba */
     h1 {
-      margin: 0;
-      padding: 14px 12px;
-      font-size: 1.6rem;
-      text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+     margin-top: 20px;  
+  font-size: 1.8rem;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.7);
     }
 
     /* Contador centrado en la pantalla */
     #countdown {
-      position: absolute;
-      top: 46%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 6;
-      text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+     margin-top: 0;      /* no necesitamos top absoluto */
+  margin-bottom: 0;
+  font-size: 2em;
+  line-height: 1.2;
     }
 
     .time-row {
@@ -75,14 +78,9 @@
 
     /* Texto inferior subido */
     .bottom-text {
-      position: absolute;
-      bottom: 85px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 6;
-      font-size: 1.1rem;
-      padding: 0 16px;
-      text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+     margin-bottom: 40px; /* algo de margen desde abajo */
+  font-size: 1.1rem;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.7);
     }
 
     /* Corazones debajo del texto */
