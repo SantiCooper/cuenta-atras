@@ -31,19 +31,21 @@
     }
 
     #countdown {
-      font-size: 2.2em;
-      font-weight: bold;
-      margin-bottom: 40px;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+     font-size: 2.2em;
+  font-weight: bold;
+  position: absolute;
+  top: 45%;         
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
     }
 
     .bottom-text {
-     font-size: 1.2em;
-  position: absolute;  
-  bottom: 40px;         
-  width: 100%;          
-  text-align: center;  
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    font-size: 1.2em;
+  position: absolute;
+  bottom: 100px;     
+  width: 100%;
+  text-align: center;
     }
 
     /* corazones flotantes */
@@ -89,7 +91,11 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      countdown.innerHTML = `${days} días<br>${hours} horas<br>${minutes} min<br>${seconds} seg`;
+      countdown.innerHTML =
+        countdown.innerHTML =
+  `${days} días&nbsp;&nbsp;${hours} horas<br>` +
+  `${minutes} min&nbsp;&nbsp;${seconds} seg`;
+
 
       if (distance < 0) {
         clearInterval(timer);
