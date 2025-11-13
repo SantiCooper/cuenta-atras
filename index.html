@@ -1,163 +1,153 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cuenta atrás - sorpresa</title>
-  <style>
-    html,body{
-      height:100%;
-      margin:0;
-      padding:0;
-    }
-    body {
-     margin: 0;
-  padding: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* distribuye título, contador y texto inferior */
-  align-items: center;
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-  color: white;
-      overflow: hidden;
-     
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuenta atrás - Iván</title>
+<style>
+  /* Fondo y base */
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
 
-    /* Capa principal sobre todo */
-    .ui-layer {
-      position: relative;
-      z-index: 5;
-      width: 100%;
-    }
+  body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* título arriba, contador centrado, texto inferior abajo */
+    align-items: center;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background: url('foto.jpg') no-repeat center center/cover;
+    overflow: hidden;
+    position: relative;
+  }
 
-    /* Título arriba */
-    h1 {
-     margin-top: 20px;  
-  font-size: 1.8rem;
-  text-shadow: 0 3px 10px rgba(0,0,0,0.7);
-    }
+  /* Título arriba */
+  h1 {
+    margin-top: 20px;
+    font-size: 1.8rem;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+    z-index: 5;
+  }
 
-    /* Contador centrado en la pantalla */
-    #countdown {
-     margin-top: 0;      /* no necesitamos top absoluto */
-  margin-bottom: 0;
-  font-size: 2em;
-  line-height: 1.2;
-    }
+  /* Contador centrado */
+  #countdown {
+    font-size: 2em;
+    line-height: 1.2;
+    z-index: 5;
+  }
 
-    .time-row {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 6px 0;
-    }
+  .time-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 6px 0;
+  }
 
-    .time-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 60px;
-      padding: 8px 12px;
-      background: rgba(0,0,0,0.45);
-      border-radius: 10px;
-      backdrop-filter: blur(2px);
-    }
+  .time-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+    padding: 8px 12px;
+    background: rgba(0,0,0,0.45);
+    border-radius: 10px;
+    backdrop-filter: blur(2px);
+  }
 
-    .time-number {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
+  .time-number {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
 
-    .time-label {
-      font-size: 0.6rem;
-      margin-top: 3px;
-      opacity: 0.9;
-    }
+  .time-label {
+    font-size: 0.6rem;
+    margin-top: 3px;
+    opacity: 0.9;
+  }
 
-    /* Texto inferior subido */
-    .bottom-text {
-     margin-bottom: 40px; /* algo de margen desde abajo */
-  font-size: 1.1rem;
-  text-shadow: 0 3px 10px rgba(0,0,0,0.7);
-    }
+  /* Texto inferior */
+  .bottom-text {
+    margin-bottom: 60px; /* ajustar la altura */
+    font-size: 1.1rem;
+    text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+    z-index: 5;
+  }
 
-    /* Corazones debajo del texto */
-    .hearts-layer {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      overflow: visible;
-      pointer-events: none;
-    }
+  /* Corazones */
+  .hearts-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    overflow: visible;
+    pointer-events: none;
+  }
 
-    .heart {
-      position: absolute;
-      bottom: -10vh;
-      color: rgba(255,0,90,1);
-      font-size: 24px;
-      opacity: 0.95;
-      animation: float 10s linear forwards;
-    }
+  .heart {
+    position: absolute;
+    bottom: -10vh;
+    color: rgba(255,0,90,1);
+    font-size: 24px;
+    opacity: 0.95;
+    animation: float 10s linear forwards;
+  }
 
-    @keyframes float {
-      0% { transform: translateY(0) scale(0.8); opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: translateY(-120vh) scale(1.2); opacity: 0.8; }
-    }
+  @keyframes float {
+    0% { transform: translateY(0) scale(0.8); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-120vh) scale(1.2); opacity: 0.8; }
+  }
 
-    @media (max-width:420px){
-      h1 { font-size:1.25rem; }
-      .time-number { font-size:1.4rem; }
-      .bottom-text { bottom:60px; font-size:1rem; }
-    }
-  </style>
+  @media (max-width:420px){
+    h1 { font-size:1.3rem; }
+    .time-number { font-size:1.4rem; }
+    .bottom-text { margin-bottom:40px; font-size:1rem; }
+  }
+</style>
 </head>
 <body>
 
   <div class="hearts-layer"></div>
 
-  <div class="ui-layer">
-    <h1>Iván, empieza la cuenta atrás para tu sorpresa 🎁💃</h1>
+  <h1>Iván, empieza la cuenta atrás para tu sorpresa 🎁💃</h1>
 
-    <div id="countdown">
-      <div class="time-row">
-        <div class="time-box">
-          <div class="time-number" id="days">0</div>
-          <div class="time-label">días</div>
-        </div>
-        <div class="time-box">
-          <div class="time-number" id="hours">0</div>
-          <div class="time-label">horas</div>
-        </div>
+  <div id="countdown">
+    <div class="time-row">
+      <div class="time-box">
+        <div class="time-number" id="days">0</div>
+        <div class="time-label">días</div>
       </div>
-
-      <div class="time-row">
-        <div class="time-box">
-          <div class="time-number" id="minutes">0</div>
-          <div class="time-label">min</div>
-        </div>
-        <div class="time-box">
-          <div class="time-number" id="seconds">0</div>
-          <div class="time-label">seg</div>
-        </div>
+      <div class="time-box">
+        <div class="time-number" id="hours">0</div>
+        <div class="time-label">horas</div>
       </div>
     </div>
-
-    <div class="bottom-text">Ya sabes cuándo… vamos a ver dónde.</div>
+    <div class="time-row">
+      <div class="time-box">
+        <div class="time-number" id="minutes">0</div>
+        <div class="time-label">min</div>
+      </div>
+      <div class="time-box">
+        <div class="time-number" id="seconds">0</div>
+        <div class="time-label">seg</div>
+      </div>
+    </div>
   </div>
 
+  <div class="bottom-text">Ya sabes cuándo… vamos a ver dónde.</div>
+
   <script>
-    // FECHA OBJETIVO (asegúrate que es tu fecha correcta)
-    const targetDate = new Date("Nov 22, 2025 21:00:00").getTime();
+    const targetDate = new Date('Nov 22, 2025 21:00:00').getTime();
 
-    const elDays = document.getElementById("days");
-    const elHours = document.getElementById("hours");
-    const elMinutes = document.getElementById("minutes");
-    const elSeconds = document.getElementById("seconds");
+    const elDays = document.getElementById('days');
+    const elHours = document.getElementById('hours');
+    const elMinutes = document.getElementById('minutes');
+    const elSeconds = document.getElementById('seconds');
 
-    function actualizar() {
+    function actualizarContador() {
       const now = Date.now();
       const diff = targetDate - now;
 
@@ -175,25 +165,23 @@
       elSeconds.textContent = Math.floor((diff / 1000) % 60);
     }
 
-    actualizar();
-    setInterval(actualizar, 1000);
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
 
     // Corazones
-    const capa = document.querySelector(".hearts-layer");
-
+    const heartsLayer = document.querySelector('.hearts-layer');
     function crearCorazon() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.textContent = "❤️";
-      heart.style.left = Math.random()*100 + "vw";
-      heart.style.fontSize = (22 + Math.random()*20) + "px";
-      heart.style.animationDuration = (8 + Math.random()*5) + "s";
-      capa.appendChild(heart);
-
-      setTimeout(()=> heart.remove(), 14000);
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.textContent = '❤️';
+      heart.style.left = (5 + Math.random()*90) + 'vw';
+      heart.style.fontSize = (22 + Math.random()*20) + 'px';
+      heart.style.animationDuration = (8 + Math.random()*5) + 's';
+      heartsLayer.appendChild(heart);
+      setTimeout(() => heart.remove(), 14000);
     }
-
     setInterval(crearCorazon, 600);
   </script>
+
 </body>
 </html>
