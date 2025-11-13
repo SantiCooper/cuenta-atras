@@ -1,133 +1,232 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sorpresa</title>
-
-<style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cuenta atrás - copia corregida</title>
+  <style>
+    /* Fondo y base */
+    html,body{
+      height:100%;
+      margin:0;
+      padding:0;
+    }
     body {
-        margin: 0;
-        padding: 0;
-        background: url("foto.jpg") center/cover no-repeat fixed;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        text-align: center;
-        color: white;
-        font-family: Arial, sans-serif;
-        overflow: hidden;
+      background: url('foto.jpg') no-repeat center center/cover;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: white;
+      overflow: hidden;
+      position: relative;
     }
 
-    /* TÍTULO ARRIBA */
+    /* Aseguramos que el contenedor principal esté por encima de las animaciones */
+    .ui-layer {
+      position: relative;
+      z-index: 5;
+      text-align: center;
+      width: 100%;
+      pointer-events: none; /* evitar interferir con clicks si hay animaciones */
+    }
+
+    /* Título */
     h1 {
-        margin-top: 20px;
-        font-size: 2.2em;
-        text-shadow: 0 0 8px black;
+      margin: 0;
+      padding: 14px 12px;
+      font-size: 1.6rem;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+      pointer-events: auto;
     }
 
-    /* CONTENEDOR DEL CONTADOR */
+    /* Contenedor del contador centrado */
     #countdown {
-        margin-top: 20px;
-        font-size: 2em;
-        line-height: 1.2em;
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 6; /* por encima de las animaciones */
+      pointer-events: auto;
+      line-height: 1.2;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.8);
     }
 
     .time-row {
-        display: flex;
-        justify-content: center;
+      display:flex;
+      justify-content:center;
+      gap: 12px;
+      align-items: center;
+      margin: 6px 0;
     }
 
-    /* CAJITAS DEL TIEMPO */
     .time-box {
-        display: inline-block;
-        background: rgba(0, 0, 0, 0.45);
-        padding: 10px 15px;
-        border-radius: 10px;
-        margin: 5px;
-        min-width: 55px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      min-width:64px;
+      padding:8px 12px;
+      border-radius:10px;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(2px);
     }
 
     .time-number {
-        font-size: 1.4em;
-        font-weight: bold;
+      font-weight:700;
+      font-size:1.3rem;
     }
 
     .time-label {
-        font-size: 0.55em;
-        opacity: 0.9;
+      font-size:0.6rem;
+      letter-spacing:0.06em;
+      margin-top:4px;
+      opacity:0.95;
     }
 
-    /* TEXTO INFERIOR MÁS ARRIBA */
-    #bottom-text {
-        margin-bottom: 40px;
-        font-size: 1.3em;
-        text-shadow: 0 0 6px black;
+    /* Texto inferior (subido y visible) */
+    .bottom-text {
+      position: absolute;
+      bottom: 90px; /* ajustar para subir/ bajar */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index:6;
+      padding: 0 16px;
+      font-size:1.1rem;
+      text-shadow: 0 3px 10px rgba(0,0,0,0.7);
+      pointer-events: auto;
     }
 
-    /* CORAZONES */
+    /* Corazones (por debajo del UI) */
+    .hearts-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 3; /* debajo del UI */
+      pointer-events: none;
+      overflow: visible;
+    }
+
     .heart {
-        position: absolute;
-        bottom: -20px;
-        font-size: 24px;
-        opacity: 0.9;
-        animation: subir 4s linear infinite;
-        color: rgba(255, 0, 80, 1);
+      position: absolute;
+      bottom: -10vh;
+      font-size: 24px;
+      color: rgba(255,0,90,1);
+      animation: float 10s linear forwards;
+      transform-origin: center;
+      will-change: transform, opacity;
+      opacity: 0.95;
     }
 
-    @keyframes subir {
-        0% { transform: translateY(0) scale(1); opacity: 1; }
-        100% { transform: translateY(-110vh) scale(1.4); opacity: 0.4; }
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(0.8) rotate(0deg);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.3) rotate(30deg);
+        opacity: 0.8;
+      }
     }
-</style>
+
+    /* Responsivo: números más grandes en pantallas pequeñas */
+    @media (max-width:420px){
+      h1 { font-size:1.2rem; padding:10px; }
+      .time-number { font-size:1.6rem; }
+      .time-box { min-width:56px; padding:6px 10px; }
+      .bottom-text { font-size:1rem; bottom:70px; }
+    }
+  </style>
 </head>
 <body>
 
-<h1>¡Feliz Cumpleaños!</h1>
+  <div class="hearts-layer" aria-hidden="true"></div>
 
-<div id="countdown">
-    <div class="time-row">
-        <div class="time-box"><div class="time-number" id="days"></div><div class="time-label">DÍAS</div></div>
-        <div class="time-box"><div class="time-number" id="hours"></div><div class="time-label">HORAS</div></div>
+  <div class="ui-layer">
+    <h1>Iván, empieza la cuenta atrás para tu sorpresa 🎁💃</h1>
+
+    <div id="countdown" aria-live="polite">
+      <div class="time-row">
+        <div class="time-box"><div class="time-number" id="days">0</div><div class="time-label">días</div></div>
+        <div class="time-box"><div class="time-number" id="hours">0</div><div class="time-label">horas</div></div>
+      </div>
+      <div class="time-row">
+        <div class="time-box"><div class="time-number" id="minutes">0</div><div class="time-label">min</div></div>
+        <div class="time-box"><div class="time-number" id="seconds">0</div><div class="time-label">seg</div></div>
+      </div>
     </div>
-    <div class="time-row">
-        <div class="time-box"><div class="time-number" id="minutes"></div><div class="time-label">MINUTOS</div></div>
-        <div class="time-box"><div class="time-number" id="seconds"></div><div class="time-label">SEGUNDOS</div></div>
-    </div>
-</div>
 
-<div id="bottom-text">Prepárate para tu sorpresa… ❤️</div>
+    <div class="bottom-text">Ya sabes cuándo… vamos a ver dónde.</div>
+  </div>
 
-<script>
-    // Cuenta regresiva
-    const targetDate = new Date("2025-01-10T00:00:00").getTime();
+  <script>
+    // Fecha objetivo - Asegúrate que está en el futuro
+    const targetDate = new Date('Nov 22, 2025 21:00:00').getTime();
 
-    function actualizar() {
-        const now = new Date().getTime();
-        const diff = targetDate - now;
+    // Elementos
+    const elDays = document.getElementById('days');
+    const elHours = document.getElementById('hours');
+    const elMinutes = document.getElementById('minutes');
+    const elSeconds = document.getElementById('seconds');
 
-        document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-        document.getElementById("hours").innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        document.getElementById("minutes").innerText = Math.floor((diff / (1000 * 60)) % 60);
-        document.getElementById("seconds").innerText = Math.floor((diff / 1000) % 60);
+    function actualizarContador(){
+      const now = Date.now();
+      const diff = targetDate - now;
+
+      if (diff <= 0) {
+        // Si ya ha pasado, mostramos 0 y detenemos la cuenta
+        elDays.innerText = 0;
+        elHours.innerText = 0;
+        elMinutes.innerText = 0;
+        elSeconds.innerText = 0;
+        return;
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      elDays.innerText = days;
+      elHours.innerText = hours;
+      elMinutes.innerText = minutes;
+      elSeconds.innerText = seconds;
     }
 
-    setInterval(actualizar, 1000);
+    // Llamada inmediata para que no espere 1s
+    actualizarContador();
+    // Luego cada segundo
+    const timerId = setInterval(actualizarContador, 1000);
 
-    // Animación de corazones
-    function crearCorazon() {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤";
-        heart.style.left = Math.random() * 100 + "vw";
-        document.body.appendChild(heart);
+    // Corazones: creamos en la capa dedicada y los dejamos animar
+    const heartsLayer = document.querySelector('.hearts-layer');
 
-        setTimeout(() => heart.remove(), 4000);
+    function crearCorazon(){
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerText = '❤️';
+
+      // posición horizontal aleatoria
+      heart.style.left = (5 + Math.random() * 90) + 'vw';
+      // tamaño aleatorio
+      const size = 18 + Math.random() * 26;
+      heart.style.fontSize = size + 'px';
+      // duración aleatoria
+      const dur = 8 + Math.random() * 6;
+      heart.style.animationDuration = dur + 's';
+      // ligera rotación inicial
+      heart.style.transform = `rotate(${(Math.random()*40)-20}deg)`;
+
+      heartsLayer.appendChild(heart);
+
+      // limpieza después de la animación (un poco más de tiempo que duración)
+      setTimeout(() => {
+        heart.remove();
+      }, (dur + 0.5) * 1000);
     }
 
-    setInterval(crearCorazon, 500);
-</script>
+    // intervalo de creación
+    setInterval(crearCorazon, 600);
 
+  </script>
 </body>
 </html>
